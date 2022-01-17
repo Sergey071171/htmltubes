@@ -1,0 +1,301 @@
+﻿$('.blockPlay').on('click', function(e) {
+
+
+ if (document.getElementById('video') === null) {
+         setVideo();
+	 var video = document.getElementById('video');
+         video.style.display="block";
+          return;
+    }  
+
+ video =  document.getElementById('video');
+ if (video.paused == true) {
+    video.play();
+    videoAuto = true;
+    sessvars.stopvideo = false;
+    $.cookie("stopvideo", null);
+  } else {
+    video.pause();
+    videoAuto = false;
+    sessvars.stopvideo = true;
+   $.cookie("stopvideo", true, { expires: 30 });
+  }
+});
+
+
+
+/*
+$('.blockContent.tvideo').on("click", function () {
+     url = '/products/'+tekfil || '/products/msk';
+     window.location = url;
+});
+*/
+
+
+
+var videoElem = document.getElementById('myVideoModal');
+
+$('#myVideo').on("click", function () {
+   var videoElem = document.getElementById('myVideo');
+  if (videoElem.paused == true) {
+    videoElem.play ();
+  } else {
+    videoElem.pause ();
+  }
+});
+
+$('#myVideoModal').on("click", function () {
+  if (videoElem.paused == true) {
+    videoElem.play ();
+  } else {
+    videoElem.pause ();
+  }
+});
+
+
+function en_site() {
+     window.location = 'http://en.mc.ru';
+}
+
+
+
+
+ function isFullScreen() {
+  return !!(document.fullScreen ||
+            document.webkitIsFullScreen ||
+            document.mozFullScreen ||
+            document.msFullscreenElement ||
+            document.fullscreenElement);
+}
+
+function handleFullScreen() {
+  if ( isFullScreen() ) {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  } else {
+    if (videoElem.requestFullscreen) videoElem.requestFullscreen();
+    else if (videoElem.mozRequestFullScreen) videoElem.mozRequestFullScreen();
+    else if (videoElem.webkitRequestFullScreen) videoElem.webkitRequestFullScreen();
+    else if (videoElem.msRequestFullscreen) videoElem.msRequestFullscreen();
+  }
+}
+
+
+$('.BtnFullVideo').on('click', function(e) {
+//  if (videoElem.paused) {
+    handleFullScreen();
+//    videoElem.play();
+//  }
+});
+
+
+$('[data-video-trigger]').on('click', function(e) {
+    var src = $(this).data('video-trigger');
+    $('#myVideoModal').attr("src",src);
+    document.getElementById('myVideoModal').play();
+});
+
+
+
+function sb(id,st) {
+  $('#btn_'+id).addClass('_success');
+}
+
+function gh(basket_counter) {
+  if (basket_counter === 0)
+	  $('.headerBasketCount').html("");
+  else
+	  $('.headerBasketCount').html(basket_counter);
+}
+
+
+      function onSubmit(token) {
+/*
+	    var val, input, validatePhone, error, target;
+	    input = $('[data-phone]');
+	    val = input.val();
+	    validatePhone = /\(?([0-9]{3})\)?([ .-]?)([ ][0-9]{3})\2([0-9]{4})/;
+  
+	    $('#ErrFeed').html('');
+            if (val.length > 0)
+	      if (!validatePhone.test(val)) {
+		     $('#ErrFeed').html('Ошибка при вводе телефона<br>');
+                      return;
+	         }
+
+	    input = $('[data-email]');
+	    val = input.val();
+	    validateEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+            if (val.length > 0)
+	      if (!validateEmail.test(val)) {
+		     $('#ErrFeed').html('Ошибка при вводе электронной почты<br>');
+                      return;
+	         }
+	    val = $('#message').val();
+	    console.log(val);
+            if (val.length == 0)
+		{
+		     $('#ErrFeed').html('Введите сообщение<br>');
+                      return;
+	        }
+*/	        
+             $('#feed-form').submit() ;
+       }
+
+/*
+$(window).scroll(function() {
+
+   scroll = $(window).scrollTop();
+   if (scroll> 350) {
+	$('.scroll_btn').show();
+   } else {
+ 	$('.scroll_btn').hide();
+   }
+});
+*/
+
+function setsity(par) {
+	$('.frmSetSity').val(par);
+	$('.Filials form').submit() ;                             
+}
+ 
+
+$(document).ready(function() {
+
+//    var resolution = $(window).width() > 1020;
+//    if (resolution) {
+        $('.mainMenuLocation').attr('for', 'location');
+//    }
+
+
+
+ $('.corpInfoBack').on('click', function(e) {
+
+  if ($('.corpInfoBack').hasClass('_next') == false)
+  {
+  e.preventDefault();
+  var ref = '';
+  if (document.referrer) {
+     url = document.referrer;
+     ref = url.match(/:\/\/(.[^/]+)/)[1];
+  }
+  var url ="/";
+
+  if (ref.substring(0, 5) != 'mc.ru') 
+     window.location = url;
+  else
+     history.go(-1);
+  }
+
+  });
+
+});
+
+
+$.history = {
+    init: function ( data ) {
+        window.history.replaceState( { data : data, title : document.title }, '' );
+    },
+    add: function ( data, name ) {
+        var newAddress = window.location.href + ( window.location.href.substr( -1 ) === '/' ? '' : '/' ) + encodeURIComponent( name ) + '/';
+        window.history.pushState( { data: data, title : document.title }, '', newAddress );
+    },
+    delete: function ( data ) {
+        var hrefs = window.location.href.split( '/' ), pathes = hrefs.slice( 3 ), last = pathes.length > 0 ? pathes.length - 1 : 0;
+        while ( last > -1 && pathes[last] === '' ) last--;
+        window.history.pushState( { data : data, title : document.title }, '', hrefs.slice( 0, 4 + last ).join( '/' ) + '/' );
+    }
+};
+
+
+/*
+window.addEventListener( 'popstate', function ( event ) {
+
+   console.log('event.state');
+
+    if ( !event.state || !event.state.data ) return;
+    document.title = event.state.title;
+	// using saved event.state.data
+}, false );
+*/
+
+//---  Notification----
+
+//---  Notification----
+
+var notify=[];
+
+function  notifyoff(curnotify)
+{
+  for(var i=0; i<=notify.length;i++)
+    if (curnotify == notify[i])
+      {
+        console.log(i);
+        if (i == 0) sessvars.msg1 = true;
+        if (i == 1) sessvars.msg2 = true;
+        if (i == 2) sessvars.msg3 = true;
+        if (i == 3) sessvars.msg4 = true;
+        if (i == 4) sessvars.msg5 = true;
+	break;
+      }
+}
+
+
+function sendNotification(title, options) {
+
+	if (!("Notification" in window)) {
+//	  alert('Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.');
+	}
+	else if (Notification.permission === "granted") {
+	   var notification = new Notification(title, options);
+
+
+	   function clickFunc() { 
+             if (this.data.url != '') {
+	             window.location = this.data.url;
+        	     notifyoff(this);
+                    }
+             this.close();
+	   }
+	  notification.onclick = clickFunc;
+          notify.push(notification);
+	}
+	else if (Notification.permission !== 'denied') {
+	   Notification.requestPermission(function (permission) {
+	    if (permission === "granted") {
+//	        var notification = new Notification(title, options);
+
+			var title   = 'Сообщения активированы';
+		        var options = {
+				body: 'Вы подписаны на оповещения с нашего сайта. Вы можете настроить подписку в настройках своего браузера',
+				icon: 'avator.jpg',
+				dir: 'auto', 
+				data:  { url: '', id: 0 } 
+		               }
+
+		        var notification = new Notification(title, options);
+               }
+	    else 
+	       {	
+                 // alert('Вы можете настроить подписку на уведомления в настройках своего браузера'); 
+               }
+	    });
+
+	} 
+        else { // Пользователь ранее отклонил уведомления отключены
+             }
+
+}
+
+function removeAllNotifys()
+{
+  if(notify.length > 0)
+    for(var i=0; i<notify.length;i++){
+      notify[i].close();   
+     }
+}
+
+
+window.onbeforeunload = removeAllNotifys;

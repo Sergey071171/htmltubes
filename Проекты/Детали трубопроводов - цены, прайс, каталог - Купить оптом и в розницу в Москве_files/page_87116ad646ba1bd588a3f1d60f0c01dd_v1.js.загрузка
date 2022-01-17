@@ -1,0 +1,111 @@
+
+; /* Start:"a:4:{s:4:"full";s:74:"/local/templates/bas/components/bitrix/catalog/bas/script.js?1629797108186";s:6:"source";s:60:"/local/templates/bas/components/bitrix/catalog/bas/script.js";s:3:"min";s:0:"";s:3:"map";s:0:"";}"*/
+$(function(){
+
+	$('input[name="view"]').change(function(){
+
+		location.href = $(this).val();
+	});
+
+	$('select[name="sort"]').change(function(){
+
+		location.href = $(this).val();
+	});
+});
+/* End */
+;
+; /* Start:"a:4:{s:4:"full";s:116:"/local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.smart.filter/bas.vertical/script.js?16297971081164";s:6:"source";s:101:"/local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.smart.filter/bas.vertical/script.js";s:3:"min";s:0:"";s:3:"map";s:0:"";}"*/
+function formFilter(obj)
+{
+	var arrValue = [];
+
+	var strName = $(obj).attr('data-name');
+
+	$(obj).find('input:checked').each(function(){
+
+		arrValue.push($(this).val());
+	});
+
+	if (arrValue.length > 0) return strName + '-is-' + arrValue.join('-or-') + '/';
+	else return '';
+}
+
+function setFilter()
+{
+	var strLink = $('.filterFullBlock .filterSetLink').attr('href');
+
+	var strLinkParams = '';
+
+	$('.filterSetBlock').each(function(){
+
+		strLinkParams += formFilter($(this));
+	});
+
+//	if (strLinkParams) location.href = strLink + 'filter/' + strLinkParams + 'apply/';
+//	else location.href = strLink;
+
+	if (strLinkParams)
+    {
+        strLink = strLink + 'filter/' + strLinkParams + 'apply/?ajax_filter_url=Y';
+
+        $.ajax({
+            type: "GET",
+            url: strLink,
+            timeout: 3000,
+            success: function(data)
+            {
+                location.href = data;
+            }
+        });
+    }
+    else location.href = strLink;
+}
+
+$(function(){
+
+	$('.filterSetBtn').click(setFilter);
+
+	$('.filterUnSetBtn').click(function(){
+
+		$(this).parents('.filterSetBlock').find('input:checked').prop("checked", false);
+
+		setFilter();
+	});
+});
+/* End */
+;
+; /* Start:"a:4:{s:4:"full";s:102:"/local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.section/list/script.js?1629797108605";s:6:"source";s:88:"/local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.section/list/script.js";s:3:"min";s:0:"";s:3:"map";s:0:"";}"*/
+$(function(){
+
+	$(document).on('click', '[data-show-more]', function(){
+
+		var btn = $(this);
+		var page = btn.attr('data-next-page');
+		var id = btn.attr('data-show-more');
+		var bx_ajax_id = btn.attr('data-ajax-id');
+		var block_id = "#comp_" + bx_ajax_id + " .catalog-table";
+		
+		var data = {
+			bxajaxid:bx_ajax_id
+		};
+
+		data['PAGEN_'+id] = page;
+
+		$.ajax({
+			type: "GET",
+			url: window.location.href,
+			data: data,
+			timeout: 3000,
+			success: function(data){
+
+				$("#btn_"+bx_ajax_id).remove();
+				$(block_id).append(data);
+				$(block_id).after($("#btn_"+bx_ajax_id));
+			}
+		});
+	});
+});
+/* End */
+;; /* /local/templates/bas/components/bitrix/catalog/bas/script.js?1629797108186*/
+; /* /local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.smart.filter/bas.vertical/script.js?16297971081164*/
+; /* /local/templates/bas/components/bitrix/catalog/bas/bitrix/catalog.section/list/script.js?1629797108605*/

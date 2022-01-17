@@ -1,0 +1,50 @@
+/* close menu history*/
+
+	        var myHistory = 0;
+	        var first = 0;
+                var tekurl = window.location; 
+                var isHis = !!(window.history && history.pushState);
+                 
+                
+		function  CloseMenu(par) {
+                    if (!isHis) return;
+
+  		    console.log('CloseMenu() ' + par);
+  		
+
+                    if (myHistory === 1) myHistory = 0;
+                    if (par === 1) {
+	 	    	var stateObj = { foo: "nobar" };
+			    history.replaceState(stateObj, "page 1", tekurl);
+        	            return false;
+			}
+		    else
+                       {
+			first = 0;
+		        var link = $('.mainMenuClose');
+		        link.trigger('click');
+                       }
+
+		}
+
+		function  OpenMenu() {
+                    if (!isHis) return;
+		
+  		    console.log('OpenMenu()');
+
+ 	    	    var stateObj = { foo: "bar" };
+		    if (first === 1 )
+			    history.replaceState(stateObj, "page 2", tekurl);
+		    else
+		     {	    history.pushState(stateObj, "page 2", tekurl);
+			    first = 1;
+                     }
+		    myHistory = 1;
+       	            return false;
+		}
+
+                if (isHis)
+                window.onpopstate = function( e ) {
+		    if (myHistory === 1) CloseMenu(0);
+                }
+ 

@@ -1,0 +1,32 @@
+/* cantalog_n */
+
+/* del styles */
+.productsMenuBlock.engineering {
+    margin-top: initial;
+    padding-right: 0px;
+}
+
+
+/* new styles */
+/*-------------------------------------------------------*/
+
+.productsMenuBlock, .catalogContent .productsMenuBlock {
+    width: 100%;
+}
+
+.productsMenuCol, .catalogContent .productsMenuCol {
+    columns: 3;
+}
+
+@media (min-width: 801px) and (max-width: 1000px) {
+  .productsMenuCol, .catalogContent .productsMenuCol {
+      columns: 2;
+}
+}
+
+@media (max-width: 800px) and (min-width: 1px){
+  .productsMenuCol, .catalogContent .productsMenuCol {
+      columns: 1;
+}
+
+

@@ -1,0 +1,41 @@
+/* bindings forms triggers and B24 forms */
+/* use data-param-id attribute or data-name attribute as a key */
+/* use B24 form id as a value */
+var formBindings = {
+	'test' : 6,
+
+
+}
+
+/* click button of B24 form */
+$(document).on('click', '[data-event=b24]', function(){
+	var $this = $(this);
+	var bind = $this.attr('data-bind');
+	if(bind > 0){
+		var $link = $('.b24-web-form-popup-btn-' + bind);
+		if($link.length){
+			$link[0].click();
+		}
+	}
+});
+
+/* unbind jqm events */
+$(document).ready(function(){
+	if(typeof formBindings === 'object'){
+		var keys = Object.keys(formBindings);
+		for(var i in keys){
+			var id = keys[i];
+			var $link = $('[data-event=jqm][data-param-id=' + id + ']');
+			if(!$link.length){
+				$link = $('[data-event=jqm][data-name=' + id + ']');
+			}
+
+			if($link.length){
+				$link.unbind();
+				$link.data('event', 'b24');
+				$link.attr('data-event', 'b24');
+				$link.attr('data-bind', formBindings[id]);
+			}
+		}
+	}
+});

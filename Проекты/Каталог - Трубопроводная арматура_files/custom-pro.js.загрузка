@@ -1,0 +1,125 @@
+(function($) {
+    'use strict';
+    $(document).ready(function() {
+                
+        $('body').on('click','.wpt_click_to_view', function(){
+            $(this).closest('.toggle_on').toggleClass('toggle-show');
+            $(this).closest('.toggle_on').find('.item_inside_cell,.col_inside_tag').fadeToggle('medium');
+        });
+        
+        
+        //Select2
+        if(typeof $('.wpt_product_table_wrapper .search_select').select2 === 'function' && $('.wpt_product_table_wrapper .search_select').length > 0 && WPT_DATA.select2 !== 'disable' ){
+            $('.wpt_product_table_wrapper .search_select.cf_query.cf_query_multiple').select2({//.query
+                placeholder: WPT_DATA.search_select_placeholder,
+                tags: true,
+            });
+            $('.wpt_product_table_wrapper .search_select.cf_query.cf_query_').select2();
+
+        }
+        
+        
+        /****************** NEW CODE *********************/
+        setZeroAndCartCount();
+        function setZeroAndCartCount(){
+            if($('.quantity_cart_plus_minus').length < 1){
+                return;
+            }
+            setZeroInput();
+            setCartCount();
+        }
+        function setZeroInput(){
+            $('.quantity_cart_plus_minus').val(0);
+        }
+        function setCartCount(){
+            if($('.quantity_cart_plus_minus').length < 1){
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: WPT_DATA.ajax_url,
+                data: {
+                    action: 'wpt_quckcart_count_info',
+                },
+                complete: function(){
+
+                },
+                success: function(response) {
+
+                    var fragments = response.fragments;
+                    try{
+                        var wpt_quckcart = fragments.wpt_quckcart;//Object.values(fragments.wpt_quckcart);
+                        if ( wpt_quckcart ) {
+                            $.each( wpt_quckcart, function( key, value ) {
+                                if('string' === typeof key){
+                                    $( '#product_id_' + key + ' input.input-text.qty.text' ).val( value );
+
+                                }
+                            });
+                        }
+                    }catch(e){
+                        //e:getMessage();
+                    }
+                },
+                error: function() {
+
+                },
+            });
+        }
+        
+        $(document).on('wc_fragments_refreshed',function(){
+            setCartCount();
+        });
+        $(document).on('wc_fragments_refresh',function(){
+            setCartCount();
+        });
+        $(document).on('removed_from_cart',function(){
+            setCartCount();
+        });
+        
+
+        $('body').on('change','.quantity_cart_plus_minus',function(){
+            var qty_val = $(this).val();
+            var product_id = $(this).closest('tr').data('product_id');
+
+            $.ajax({
+                type: 'POST',
+                url: WPT_DATA.ajax_url,
+                data: {
+                    action:         'wpt_quckcart_ajax_update',
+                    qty_val:    qty_val,
+                    product_id:product_id,
+                },
+                complete: function(){
+                        $( document.body ).trigger( 'updated_cart_totals' );
+                        $( document.body ).trigger( 'wc_fragments_refreshed' );
+                        $( document.body ).trigger( 'wc_fragments_refresh' );
+                        $( document.body ).trigger( 'wc_fragment_refresh' );
+                },
+                success: function(response) {
+                    $('.saiful_click_wrapper').html(response);
+                    console.log(response);
+                    var fragments = response.fragments;
+                    try{
+                        /******IF NOT WORK CART UPDATE, JUST ADD A RIGHT SLASH AT THE BEGINING OF THIS LINE AND ACTIVATE BELLOW CODE***********/
+                        if ( fragments ) {
+                            $.each( fragments, function( key, value ) {
+                                if('string' === typeof key && typeof $( key ) === 'object'){
+                                    $( key ).replaceWith( value );
+
+                                }
+                            });
+                        }
+                    }catch(e){
+                        //e:getMessage();
+                    }
+                },
+                error: function() {
+
+                },
+            });
+        });
+        
+    });
+})(jQuery);

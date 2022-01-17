@@ -1,0 +1,107 @@
+(function () {
+    function PrivacyPolicyCookiesInformer () {
+        this._text = null;
+        this.el = null;
+        this._cookieExpirationDate = null || 1;
+        this._msgLocation = null;
+    }
+
+    /**
+     * Inits PrivacyPolicyCookiesInformer
+     */
+    PrivacyPolicyCookiesInformer.prototype.init = function (options) {
+        if( !PrivacyPolicyIV.cookiesUtils.getCookies('privacy-policy-informer') ){
+
+            if ( typeof options !== 'object' ) throw new Error('options is not an object');
+            this._text = options.text || '';
+            this._msgLocation = options.msgLocation || 'top-over';
+
+            this.render();
+            this.el.addEventListener('click', this._onClick.bind(this));
+            this._setCookie();
+        }
+    };
+
+    /**
+     * Renders DOM-elements and inserts in DOM
+     */
+    PrivacyPolicyCookiesInformer.prototype.render = function () {
+        var privacyPolicyCookiesMsgWrap = document.createElement('div'),
+            privacyPolicyCookiesTxt = document.createElement('span'),
+            privacyPolicyCookiesConfirm = document.createElement('button');
+
+        privacyPolicyCookiesMsgWrap.classList.add('privacy-policy-cookies-informer');
+        privacyPolicyCookiesTxt.classList.add('privacy-policy-cookies-informer__txt');
+        privacyPolicyCookiesConfirm.classList.add('privacy-policy-cookies-informer__confirm');
+
+        privacyPolicyCookiesTxt.innerHTML = this._text;
+        privacyPolicyCookiesConfirm.innerHTML='x';
+        privacyPolicyCookiesMsgWrap.appendChild(privacyPolicyCookiesTxt);
+        privacyPolicyCookiesMsgWrap.appendChild(privacyPolicyCookiesConfirm);
+
+        this.el = privacyPolicyCookiesMsgWrap;
+
+        switch( this._msgLocation ){
+            case 'top-over':
+                privacyPolicyCookiesMsgWrap.classList.add('privacy-policy-cookies-informer_top-over');
+                document.body.insertBefore(privacyPolicyCookiesMsgWrap, document.body.children[0]);
+                break;
+            case 'top-inside':
+                privacyPolicyCookiesMsgWrap.classList.add('privacy-policy-cookies-informer_top-inside');
+                document.body.insertBefore(privacyPolicyCookiesMsgWrap, document.body.children[0]);
+                break;
+            case 'bottom-over':
+                privacyPolicyCookiesMsgWrap.classList.add('privacy-policy-cookies-informer_bottom-over');
+                document.body.insertBefore(privacyPolicyCookiesMsgWrap, null);
+                break;
+            case 'bottom-inside':
+                privacyPolicyCookiesMsgWrap.classList.add('privacy-policy-cookies-informer_bottom-inside');
+                document.body.insertBefore(privacyPolicyCookiesMsgWrap, null);
+                break;
+        }
+
+    };
+
+    /**
+     * On click actions
+     */
+    PrivacyPolicyCookiesInformer.prototype._onClick = function(event){
+        var that = this;
+        var confirmBtn = this.el.querySelector('.privacy-policy-cookies-informer__confirm');
+
+        if(event.target === confirmBtn ){
+            event.preventDefault();
+            that._setCookie();
+            that._removeCookiesMsg();
+        }
+
+    };
+
+    /**
+     * Sets cookie and hide notification
+     */
+    PrivacyPolicyCookiesInformer.prototype._setCookie = function(){
+        var that = this;
+        var date = new Date();
+
+        date.setDate(date.getDate() + that._cookieExpirationDate);
+
+        var cookieOpts = {
+            expires: date,
+            path: '/'
+        };
+
+        PrivacyPolicyIV.cookiesUtils.setCookies('privacy-policy-informer', 'hidden', cookieOpts);
+    };
+
+    /**
+     * Removes cookies message from DOM
+     */
+    PrivacyPolicyCookiesInformer.prototype._removeCookiesMsg = function () {
+        this.el.parentNode.removeChild(this.el);
+    };
+
+    window.PrivacyPolicyIV = window.PrivacyPolicyIV || {};
+    window.PrivacyPolicyIV.PrivacyPolicyCookiesInformer = PrivacyPolicyCookiesInformer;
+
+})();

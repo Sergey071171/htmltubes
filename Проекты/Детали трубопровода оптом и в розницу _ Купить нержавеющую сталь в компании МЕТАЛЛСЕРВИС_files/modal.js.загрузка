@@ -1,0 +1,153 @@
+
+
+var modalWindow = {
+  show : function(e) {
+
+    var $target = $(e.currentTarget);
+    var type = $target.data('modal-trigger');
+
+     if (type === "ViewPdf") {
+
+       var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+	if (iOS) return;
+
+  	var IE='\v'=='v';
+	if (IE) return;
+        if ($(window).width() < 1460)  {
+          return;
+         }
+       }
+
+    e.preventDefault();
+    var content = $('[data-modal-content='+ type +']');
+
+    content.show().addClass('opened');
+
+    $('body').on('wheel.modal mousewheel.modal', function () {
+      return false;
+    });
+
+    $('body').addClass('modalOpen');
+
+    // document.body.addEventListener('touchstart', function(e){ e.preventDefault(); })
+
+    var isPage = $('body').hasClass('page');
+
+    if (!isPage) {
+      $.fn.fullpage.setMouseWheelScrolling(false);
+      $.fn.fullpage.setAllowScrolling(false);
+    }
+
+    if (type === "ViewPdf") {
+        $('.PdfObj').remove();
+        $('.modalWindowWrap._vpdf').append('<object class="PdfObj" width="100%" height="700px" data="'+$target.attr('href')+'" type="application/pdf"><br><br><br><br><br><br><a target="blank" href="'+$target.attr('href')+'">Загрузить PDF</a> </object> ');
+     }
+
+    // TODO
+    // Убрать исключения используя модификатор на контейнере
+    if (type === "routeInfo" || type === "route" || type === "gcateg") {
+      $('body').addClass('_normalLogo');
+    }
+
+    if (type === "mainMenu" || type === "sendDir" || type === "sendComment") {
+      $('body').addClass('_darkLogo');
+    }
+
+    if (content.hasClass('_normalLogo')) {
+      $('body').addClass('_normalLogo');
+      $('body').removeClass('_darkLogo');
+    } else if (content.hasClass('_darkLogo')) {
+      $('body').addClass('_darkLogo');
+      $('body').removeClass('_normalLogo');
+    }
+
+    $('[data-modal-close='+ type +']').on('click', modalWindow.hide);
+
+
+    if (type === "mainMenu") OpenMenu();
+  },
+
+  hide : function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+
+    var type = $target.data('modal-close');
+    var tekwin = $('[data-modal-content='+ type +']');
+
+    tekwin.hide().removeClass('opened');
+
+    if (type === "VideoInstr") {
+	var videoElem = document.getElementById('myVideoModal');
+        videoElem.pause();
+	}
+
+
+    if ($('[data-modal-content].opened').length < 1) {
+      $('body').removeClass('modalOpen').removeClass('_normalLogo').removeClass('_darkLogo');
+    }
+
+    $('[data-modal-close='+ type +']').off('click');
+
+    if (!tekwin.hasClass('_noblue'))
+	 $('body').off('click');
+
+    $('body').off('wheel.modal mousewheel.modal');
+    
+    // document.body.removeEventListener('touchstart');
+
+    var isPage = $('body').hasClass('page');
+
+    if (!isPage) {
+      $.fn.fullpage.setMouseWheelScrolling(true);
+      $.fn.fullpage.setAllowScrolling(true);
+    }
+
+     if (type === "mainMenu") CloseMenu();
+  }
+}
+
+$('[data-modal-trigger]').on('click', modalWindow.show);
+
+
+
+function isEventSupported(eventName) {
+    var el = document.createElement('div');
+    eventName = 'on' + eventName;
+    var isSupported = (eventName in el);
+    if (!isSupported) {
+        el.setAttribute(eventName, 'return;');
+        isSupported = typeof el[eventName] == 'function';
+    }
+    el = null;
+    return isSupported;
+}
+
+$(document).ready(function() {
+var wheelEvent = isEventSupported('mousewheel') ? 'mousewheel' : 'wheel';
+
+$('.scroll-wheel').on(wheelEvent, function(e) {
+
+         e.preventDefault();
+
+        var oEvent = e.originalEvent,
+            delta  = oEvent.deltaY || oEvent.wheelDelta;
+
+        // deltaY for wheel event
+        // wheelData for mousewheel event
+	    var $target = $(e.target);
+
+        if (delta > 0) {
+          // 
+        } else {
+
+        }
+
+	tlg = $target.closest('.historyBlockImgs');
+	sm = tlg.scrollLeft() + delta/3;
+        tlg.scrollLeft(sm);
+//       .animate({scrollLeft: delta}, 'fast');
+    });
+    });
+
+
+

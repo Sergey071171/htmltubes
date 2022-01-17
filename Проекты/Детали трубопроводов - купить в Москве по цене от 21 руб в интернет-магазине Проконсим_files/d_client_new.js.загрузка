@@ -1,0 +1,70 @@
+var ct_ijc_v_1 = function(selector) {
+  function inject(element, value, expected_id) {
+    if (element) {
+      if (expected_id && (element && element.parentNode)) {
+        if (element.id === expected_id) {
+          element.innerHTML = value;
+        }
+      } else {
+        element.innerHTML = value;
+      }
+    }
+  }
+  
+  function html(value) {
+    if (document.body && document.readyState === "complete") {
+      initInject();
+    } else {
+      window.addEventListener('load', initInject);
+    }
+  
+    function initInject() {
+      if(selector && (selector.indexOf("#") == 0 || selector.indexOf(".") == 0)) {
+        if(selector.indexOf("#") == 0) {
+          inject(document.getElementById(selector.substring(1)), value, selector.substring(1));
+        }
+        if(selector.indexOf(".")== 0 && document.getElementsByClassName) {
+          var elements = document.getElementsByClassName(selector.substring(1));
+          for(var i = 0 ;  i < elements.length; i++){ inject(elements[i], value);}
+        }
+      }
+      window.removeEventListener('load', initInject);
+    }
+  }
+  
+  return { html:html}
+};
+                            
+var ct_c=function(t){var c;return 0<(c="object"==typeof t?t:document.querySelectorAll(t)).length?c:0},ct_contains=function(t,o){try{var r=[];return ct_c(t)&&ct_c(t).forEach(function(t,c,n){var e=t.firstChild;if(e)for(;3===e.nodeType&&-1!=e.nodeValue.indexOf(o)&&r.push(t),e=e.nextSibling;);}),0<r.length?r:0}catch(t){console.log(t)}},ct_not=function(t,e){try{var o=[];return ct_c(t)&&ct_c(e)&&ct_c(t).forEach(function(t,c,n){-1==Array.from(ct_c(e)).indexOf(t)&&o.push(t)}),0<o.length?o:0}catch(t){console.log(t)}},ct_html=function(t,e){try{ct_c(t)&&ct_c(t).forEach(function(t,c,n){t&&(t.innerHTML=e)})}catch(t){console.log(t)}},ct_repl=function(t,a,i){try{ct_c(t)&&ct_c(t).forEach(function(t,c,n){var e,o,r=t.firstChild;if(r)for(;3===r.nodeType&&(o=(e=r.nodeValue).replace(a,i))!==e&&(r.nodeValue=o),r=r.nextSibling;);})}catch(t){console.log(t)}},ct_repl_a=function(t,e,o){try{ct_c(t)&&ct_c(t).forEach(function(t,c,n){t&&t.setAttribute(e,o)})}catch(t){console.log(t)}},ct_event_listen=function(t,e,o){try{"string"==typeof t&&(t=[t]),t.forEach(function(t,c,n){document.addEventListener(t,{handleEvent:function(t){ct_c(e)&&-1!=Array.from(ct_c(e)).indexOf(t.target)&&o()}})})}catch(t){console.log(t)}},ct_remove=function(t){try{ct_c(t)&&ct_c(t).forEach(function(t,c,n){t&&t.parentNode.removeChild(t)})}catch(t){console.log(t)}},ct_ready=function(t){try{t(),"loading"===document.readyState&&document.addEventListener("DOMContentLoaded",t),"complete"!==document.readyState&&window.addEventListener("load",t)}catch(t){console.log(t)}};
+function ct_replace(){
+ct_repl('body *',/\+7 .495. 988-00-32/gi,'8 (800) 551-69-78');
+ct_repl('body *',/.495. 988-00-32/gi,'(800) 551-69-78');
+ct_repl_a('a[href*="9880032"]','href','tel:+78005516978');
+}
+ct_ready(ct_replace); 
+window.calltouch_phone = "78005516978";            if (window['ct'] && typeof window['ct'] === 'function') {
+                window['ct']('create_session', { sessionId: 450283893, siteId: 32585, modId: 'azos7bmy', setCookie: true, endSessionTime: 1641888940, domain: 'proconsim.ru', setCtCookie: '1100000000369105365', setLkCookie: null, denialTime: 15, phones: {"149784":{"subPoolName":"\u041e\u0440\u0433\u0430\u043d\u0438\u043a\u0430 \u042f\u043d\u0434\u0435\u043a\u0441","phoneId":"367021","phoneNumber":"78005516978","phoneCode":"800","phoneBody":"5516978"}} });
+                        } else {
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.open( "GET", 'https://mod.calltouch.ru/set_attrs_by_get.php?siteId=32585&sessionId=450283893&attrs={"clientError_NO_CT_CREATE_SESSION": 1}', true );
+              xmlHttp.send( null );
+            }
+            
+window.ctw = {};
+window.ctw.clientFormConfig = {}
+window.ctw.clientFormConfig.getClientFormsSettingsUrl = "//mod.calltouch.ru/callback_widget_user_form_find.php";
+window.ctw.clientFormConfig.sendClientFormsRequestUrl = "//mod.calltouch.ru/callback_request_user_form_create.php";
+(function (targetWindow, nameSpace, params){
+(()=>{var e={9713:e=>{e.exports=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}},693:(e,t,n)=>{var r=n(9713);e.exports=function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter((function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable})))),o.forEach((function(t){r(e,t,n[t])}))}return e}}},t={};function n(r){var o=t[r];if(void 0!==o)return o.exports;var a=t[r]={exports:{}};return e[r](a,a.exports,n),a.exports}n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var r in t)n.o(t,r)&&!n.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{"use strict";var e=n(693),t=n.n(e);function r(e,n,r,o){try{var a=Boolean(window.event&&window.event.target&&"A"===window.event.target.nodeName),s=Boolean(window.event&&(window.event.target&&"submit"===window.event.target.type||"submit"===window.event.type)),i=function(){var e;if(e||"undefined"==typeof XMLHttpRequest)try{e=new ActiveXObject("Msxml2.XMLHTTP")}catch(t){try{e=new ActiveXObject("Microsoft.XMLHTTP")}catch(t){e=!1}}else e=new XMLHttpRequest;return e}(),c=n?"POST":"GET";i.open(c,e,!a&&!s&&!o),a||s||o||(i.timeout=6e4),i.setRequestHeader("Content-type","application/json"),i.onreadystatechange=function(){if(4===i.readyState&&r)if(200===i.status){var e=function(e){var t;try{t=JSON.parse(e)}catch(e){}return t}(i.response);e?e.data?r(!0,t()({},e.data)):e.error?r(!1,t()({},e.error)):r(!1,{type:"unknown_error",message:"Unknown JSON format",details:{}}):r(!1,{type:"unknown_error",message:"JSON parse error",details:{}})}else 0===i.status?r(!1,{type:"unknown_error",message:"Request timeout exceeded or connection reset",details:{}}):r(!1,{type:"unknown_error",message:"Unexpected HTTP code: ".concat(i.statusText),details:{}})},i.send(n)}catch(e){r&&r(!1,{type:"unknown_error",message:"Unexpected js exception",details:{}})}}!function(e,t,n){var o=e||window,a=t||"ctw";o[a]||(o[a]={});var s=o[a].clientFormConfig||{},i=s.getClientFormsSettingsUrl,c=s.sendClientFormsRequestUrl;o[a].getRouteKeyData=function(e,t){var o=1e6*Math.random(),a="".concat(i,"?siteId=").concat(n.siteId,"&routeKey=").concat(e,"&pageUrl=").concat(n.pageUrl,"&sessionId=").concat(n.sessionId);r("".concat(a,"&rand=").concat(Math.floor(o)),null,t)},o[a].createRequest=function(e,t,o,a){var s=arguments.length>4&&void 0!==arguments[4]?arguments[4]:null,i=arguments.length>5&&void 0!==arguments[5]?arguments[5]:[],u=arguments.length>6&&void 0!==arguments[6]?arguments[6]:null,d=arguments.length>7&&void 0!==arguments[7]&&arguments[7],l=1e6*Math.random(),p={siteId:n.siteId,sessionId:n.sessionId,workMode:1,pageUrl:n.pageUrl,tags:i,phone:t,routeKey:e,fields:o,scheduleTime:s,unitId:u};r("".concat(c,"?rand=").concat(Math.floor(l)),JSON.stringify(p),a,d)}}(targetWindow,nameSpace,params)})()})();
+})(window, "ctw", {"siteId":32585,"sessionId":450283893,"pageUrl":"https:\/\/proconsim.ru\/catalog\/detali_truboprovodov\/"})
+        if (window['ct']) {
+            ct('modules', 'widgets', 'init', {"siteId":32585,"sessionId":450283893,"sessionData":{"id":450283893,"url":"https:\/\/proconsim.ru\/catalog\/detali_truboprovodov\/","source":"yandex","medium":"organic","utmCampaign":null,"deviceType":"desktop","pools":[{"subPoolId":149784,"phoneId":367021}],"geoCity":"moscow","geoRegion":"moskva","geoCountry":"ru","daysSinceLastVisit":1,"geoTimezone":"Europe\/Moscow"},"widgetTypes":["callback","promotion"],"isMobileDevice":false});
+        }
+        if (typeof window['ct']) {window['ct']('modules','widgets','goalObserver','achievedGoal','wss://ws.calltouch.ru/sub/b6bcf93fabeab9cbe00abc857f4b7e8c');}
+
+        var call_value = '450283893';
+    var call_value_azos7bmy = call_value;
+    if(window.onSessionCallValue) {
+        onSessionCallValue('450283893', '');
+    }
+        
